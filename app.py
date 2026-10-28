@@ -60,6 +60,13 @@ st.markdown("""
         margin-bottom: 20px;
     }
 
+    /* Tab Label Styling */
+    button[data-baseweb="tab"] p,
+    button[data-baseweb="tab"] {
+        font-size: 300rem !important;
+        font-weight: 600 !important;
+    }
+
     /* Grid layout for tech icons */
     .tech-grid {
         display: grid;
@@ -124,12 +131,11 @@ with c1:
     st.markdown("**BS Computer Science · 3rd Year · Cebu Institute of Technology – University**")
     st.write(
         "I'm a Cebu-based Computer Science student specializing in full-stack web engineering, "
-        "object-oriented architecture, and IoT systems. From developing Django healthcare backends "
-        "and C# desktop tools to building Java arcade games and DOST-awarded IoT buoys, "
-        "I build scalable technology designed to make a practical impact."
+        "applied AI, object-oriented architecture, and IoT systems. From analyzing machine learning "
+        "voice classification models and developing Django healthcare backends to building C# desktop tools "
+        "and DOST-awarded IoT buoys, I design software that delivers real-world impact."
     )
     
-    # Interactive Button
     if st.button("👍 Like my work"):
         st.session_state.likes += 1
         st.toast("Thanks for the support!", icon="✨")
@@ -140,11 +146,11 @@ with c2:
 
 st.divider()
 
-# ---------- AUTOBIOGRAPHY (Using Tabs) ----------
+# ---------- AUTOBIOGRAPHY (5 TABS INCLUDING RESEARCHES) ----------
 st.markdown('<div id="autobiography"></div>', unsafe_allow_html=True)
-st.header("📖 Autobiography")
+st.header("Autobiography")
 
-tab1, tab2, tab3, tab4 = st.tabs(["Background", "Education", "Leadership & Awards", "Milestones"])
+tab1, tab2, tab3, tab4, tab5 = st.tabs(["Background", "Education", "Leadership & Awards", "Milestones", "Researches"])
 
 with tab1:
     st.write(
@@ -153,12 +159,14 @@ with tab1:
         "Currently based in San Isidro, Talisay City while studying at CIT-U, my passion lies in using technology "
         "to solve local community challenges—ranging from sari-sari store inventory tracking to marine sanctuary security."
     )
+
 with tab2:
     st.markdown("**2024 – Present**")
     st.markdown("**Cebu Institute of Technology – University (CIT-U)**\n*Bachelor of Science in Computer Science (Expected 2028)*")
-    st.write("Coursework: OOP, Data Structures & Algorithms, Design & Analysis of Algorithms, Information Management, Web & Mobile Development.")
+    st.write("Coursework: Applied AI, OOP, Data Structures & Algorithms, Design & Analysis of Algorithms, Information Management.")
     st.markdown("**May 2024**")
     st.markdown("**Bantayan Science High School**\n*STEM Strand · Graduated With Highest Honors*")
+
 with tab3:
     st.markdown("**Key Recognitions:**")
     st.write("• **7th DOST Imake.wemake Competition (2024):** Top 20 Finalist & C&E Adaptive Learning Solutions (CEALS) Arduino Science Kreators Awardee.")
@@ -168,6 +176,7 @@ with tab3:
     st.write("• **CIT-U Technologian Leaders Academy (TLA):** Season 13 Delegate (2024–2025).")
     st.write("• **BSHS Supreme Secondary Learner Government:** President (2023–2024).")
     st.write("• **Bantayan Municipality VAWC:** Student Youth Representative (2023–2024).")
+
 with tab4:
     year = st.select_slider(
         "Slide through my recent milestones",
@@ -181,16 +190,80 @@ with tab4:
     elif year == "2025":
         st.success("**2025:** Engineered SariSariSmart, a Java & MySQL POS and inventory management system capstone.")
     elif year == "2026":
-        st.success("**2026:** Developed Sir Serato Simulator arcade game (JavaFX/JDBC), PopcornVault (C#/Blazor), and ALAGA (Django/PostgreSQL).")
+        st.success("**2026:** Conducted Applied AI voice classification research and developed ALAGA (Django).")
+
+with tab5:
+    # Summary Card for Research
+    with st.container(border=True):
+        st.subheader("Can A Voice Reveal Parkinson’s? Classifying & Clustering Speech Measurements")
+        st.caption("**Course:** CS365-F2 (Applied AI) | **Authors:** Chloe Julia Geonzon, Iren Nathaleigh Guinita, Mary Rose Pacina")
+        st.write(
+            "An applied AI research study analyzing 22 acoustic voice features across 32 subjects (195 recordings) "
+            "to evaluate whether machine learning classification and unsupervised K-Means clustering can detect "
+            "Parkinson's Disease without voice-data leakage."
+        )
+        st.markdown("**Methodology:** Logistic Regression, Decision Tree, Random Forest, SVM (RBF), PCA, K-Means Clustering")
+        
+        # Native Expander for Deep Dive Metrics & Charts
+        with st.expander("📊 View Detailed Research Metrics & Charts"):
+            m1, m2, m3, m4 = st.columns(4)
+            m1.metric("Voice Recordings", "195", "6 per person")
+            m2.metric("Speakers Studied", "32", "25% Healthy / 75% PD")
+            m3.metric("Voice Features", "22", "Pitch, Jitter, Shimmer, PPE")
+            m4.metric("Best Specificity", "0.470", "Logistic Regression")
+
+            st.write("---")
+            
+            # Interactive Chart Toggle
+            metric_view = st.radio(
+                "Select Metric to Visualize:",
+                options=["Balanced Accuracy", "Accuracy", "Recall (PD Sensitivity)", "Specificity (Healthy Detection)"],
+                horizontal=True,
+                key="research_tab_radio"
+            )
+
+            # Dataset from research presentation
+            model_results = pd.DataFrame({
+                "Model": ["Always-PD Baseline", "Logistic Regression", "Decision Tree", "Random Forest", "SVM (RBF)"],
+                "Accuracy": [0.756, 0.702, 0.694, 0.726, 0.673],
+                "Balanced Accuracy": [0.500, 0.617, 0.590, 0.592, 0.591],
+                "Recall (PD Sensitivity)": [1.000, 0.763, 0.797, 0.848, 0.738],
+                "Specificity (Healthy Detection)": [0.000, 0.470, 0.380, 0.380, 0.440]
+            })
+
+            r_col1, r_col2 = st.columns([1.2, 0.8], gap="large")
+
+            with r_col1:
+                st.subheader(f"Model Comparison: {metric_view}")
+                chart_data = model_results.set_index("Model")[[metric_view]]
+                st.bar_chart(chart_data, color="#8b5cf6")
+
+            with r_col2:
+                st.subheader("Model Performance Table")
+                st.dataframe(
+                    model_results,
+                    use_container_width=True,
+                    hide_index=True,
+                    column_config={
+                        "Accuracy": st.column_config.NumberColumn(format="%.3f"),
+                        "Balanced Accuracy": st.column_config.NumberColumn(format="%.3f"),
+                        "Recall (PD Sensitivity)": st.column_config.NumberColumn(format="%.3f"),
+                        "Specificity (Healthy Detection)": st.column_config.NumberColumn(format="%.3f")
+                    }
+                )
+                st.info(
+                    "**Key Finding:** Subject-wise CV prevents voice leakage. While Random Forest achieves high recall (0.848), "
+                    "Logistic Regression achieves the highest balanced accuracy (0.617) and specificity (0.470)."
+                )
 
 st.divider()
 
-# ---------- TECHNICAL SKILLS (UPDATED ICON GRID) ----------
+# ---------- TECHNICAL SKILLS ----------
 st.markdown('<div id="skills"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="portfolio-card">
-    <div class="card-title">Technical Skills</div>
+    <div class="card-title">Technical Arsenal</div>
     <div class="tech-grid">
         <div class="tech-item" title="Python"><img class="tech-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"/></div>
         <div class="tech-item" title="Django"><img class="tech-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"/></div>
@@ -213,13 +286,13 @@ st.divider()
 
 # ---------- FEATURED PROJECTS ----------
 st.markdown('<div id="projects"></div>', unsafe_allow_html=True)
-st.header("🚀 Featured Projects")
+st.header("Featured Projects")
 
 projects = [
     {
         "title": "ALAGA (Senior Citizen Health Platform)",
         "role": "Full-Stack Developer",
-        "tools": "Python, Django, PostgreSQL",
+        "tools": "Python, Django",
         "desc": "A community healthcare web application designed for managing senior citizen health records and geospatial monitoring across local barangays."
     },
     {
@@ -255,7 +328,7 @@ st.divider()
 
 # ---------- CONTACT FORM ----------
 st.markdown('<div id="contact"></div>', unsafe_allow_html=True)
-st.header("📬 Get In Touch")
+st.header("Get In Touch")
 
 k1, k2 = st.columns([1, 2], gap="large")
 with k1:
