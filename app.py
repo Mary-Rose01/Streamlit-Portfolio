@@ -263,7 +263,7 @@ st.markdown('<div id="skills"></div>', unsafe_allow_html=True)
 
 st.markdown("""
 <div class="portfolio-card">
-    <div class="card-title">Technical Arsenal</div>
+    <div class="card-title">Technical Skills</div>
     <div class="tech-grid">
         <div class="tech-item" title="Python"><img class="tech-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"/></div>
         <div class="tech-item" title="Django"><img class="tech-icon" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/django/django-plain.svg"/></div>
