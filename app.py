@@ -134,10 +134,11 @@ with c1:
     st.markdown('<div class="hero">Hi, I\'m Mary Rose.</div>', unsafe_allow_html=True)
     st.markdown("**BS Computer Science · 3rd Year · Cebu Institute of Technology – University**")
     st.write(
-        "I'm a Cebu-based Computer Science student specializing in full-stack web engineering, "
-        "applied AI, object-oriented architecture, and IoT systems. From analyzing machine learning "
-        "voice classification models and developing Django healthcare backends to building C# desktop tools "
-        "and DOST-awarded IoT buoys, I design software that delivers real-world impact."
+        "I'm a Cebu-based Computer Science student who learns best by building things that "
+        "actually run. Three years in, I've developed strong fundamentals in Computer Science, "
+        "and each experience has pushed me closer to data science, AI, and "
+        "full-stack development. I'm looking for the next challenge where I can keep learning "
+        "while building something useful for Filipinos."
     )
     
     if st.button("👍 Like my work"):
