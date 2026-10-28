@@ -61,9 +61,11 @@ st.markdown("""
     }
 
     /* Tab Label Styling */
-    button[data-baseweb="tab"] p,
-    button[data-baseweb="tab"] {
-        font-size: 300rem !important;
+    button[data-baseweb="tab"],
+    button[data-baseweb="tab"] *,
+    [data-testid="stTab"],
+    [data-testid="stTab"] * {
+        font-size: 1.1rem !important;
         font-weight: 600 !important;
     }
 
@@ -121,6 +123,8 @@ if "likes" not in st.session_state:
     st.session_state.likes = 0
 if "messages" not in st.session_state:
     st.session_state.messages = []
+if "show_all_projects" not in st.session_state:
+    st.session_state.show_all_projects = False
 
 # ---------- HERO SECTION ----------
 st.markdown('<div id="about"></div>', unsafe_allow_html=True)
@@ -186,14 +190,13 @@ with tab4:
     if year == "2023":
         st.success("**2023:** Awarded 1st place in Division STEMazing competition and led the Science Club as President.")
     elif year == "2024":
-        st.success("**2024:** Named Top 20 Finalist & CEALS Awardee at DOST Imake.wemake for Project Bassa (C++/IoT Buoy).")
+        st.success("**2024:** Named Top 20 Finalist & CEALS Awardee at DOST Imake.wemake for Project Bassa (C++/IoT Buoy), Led the School Student Government as President.")
     elif year == "2025":
         st.success("**2025:** Engineered SariSariSmart, a Java & MySQL POS and inventory management system capstone.")
     elif year == "2026":
         st.success("**2026:** Conducted Applied AI voice classification research and developed ALAGA (Django).")
 
 with tab5:
-    # Summary Card for Research
     with st.container(border=True):
         st.subheader("Can A Voice Reveal Parkinson’s? Classifying & Clustering Speech Measurements")
         st.caption("**Course:** CS365-F2 (Applied AI) | **Authors:** Chloe Julia Geonzon, Iren Nathaleigh Guinita, Mary Rose Pacina")
@@ -204,7 +207,6 @@ with tab5:
         )
         st.markdown("**Methodology:** Logistic Regression, Decision Tree, Random Forest, SVM (RBF), PCA, K-Means Clustering")
         
-        # Native Expander for Deep Dive Metrics & Charts
         with st.expander("📊 View Detailed Research Metrics & Charts"):
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("Voice Recordings", "195", "6 per person")
@@ -214,7 +216,6 @@ with tab5:
 
             st.write("---")
             
-            # Interactive Chart Toggle
             metric_view = st.radio(
                 "Select Metric to Visualize:",
                 options=["Balanced Accuracy", "Accuracy", "Recall (PD Sensitivity)", "Specificity (Healthy Detection)"],
@@ -222,7 +223,6 @@ with tab5:
                 key="research_tab_radio"
             )
 
-            # Dataset from research presentation
             model_results = pd.DataFrame({
                 "Model": ["Always-PD Baseline", "Logistic Regression", "Decision Tree", "Random Forest", "SVM (RBF)"],
                 "Accuracy": [0.756, 0.702, 0.694, 0.726, 0.673],
@@ -281,48 +281,87 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-
 st.divider()
 
 # ---------- FEATURED PROJECTS ----------
 st.markdown('<div id="projects"></div>', unsafe_allow_html=True)
 st.header("Featured Projects")
 
+
 projects = [
     {
         "title": "ALAGA (Senior Citizen Health Platform)",
-        "role": "Full-Stack Developer",
-        "tools": "Python, Django",
-        "desc": "A community healthcare web application designed for managing senior citizen health records and geospatial monitoring across local barangays."
+        "role": "Developer",
+        "tools": "Python, Django, PostgreSQL",
+        "desc": "A community healthcare web application designed for managing senior citizen health records and geospatial monitoring across local barangays.",
+        "link": "https://github.com/Mary-Rose01/Alaga",
+        "label": "View on GitHub ↗"
     },
     {
         "title": "Sir Serato Simulator",
-        "role": "Lead Game Developer",
+        "role": "Developer",
         "tools": "Java, JavaFX, FXGL, JDBC, MySQL",
-        "desc": "Multi-threaded arcade classroom management game proctoring quizzes in real time, featuring full CRUD leaderboard integration."
+        "desc": "Multi-threaded arcade classroom management game proctoring quizzes in real time, featuring full CRUD leaderboard integration.",
+        "link": "https://github.com/binggbongg/CSIT228-Capstone-Sir-Jay-Simulator",
+        "label": "View on GitHub ↗"
     },
     {
         "title": "Project Bassa: IoT Security Buoy",
-        "role": "IoT & Embedded Developer",
+        "role": "Researcher",
         "tools": "C++, Arduino, Water Quality Sensors, GPS",
-        "desc": "Real-time marine sanctuary monitoring buoy detecting illegal fishing activities. Recognized as a 7th DOST Imake.wemake Top 20 Finalist."
+        "desc": "Real-time marine sanctuary monitoring buoy detecting illegal fishing activities. Recognized as a 7th DOST Imake.wemake Top 20 Finalist and C&E Adaptive Learning Solutions (CEALS) Arduino Science Kreators Awardee.",
+        "link": "",  
+        "label": "View Paper ↗"
     },
     {
         "title": "SariSariSmart POS",
-        "role": "Java / Database Developer",
+        "role": "Developer",
         "tools": "Java, MySQL",
-        "desc": "Point of Sale and inventory system modernizing traditional sari-sari store notebook accounting with automated sales tracking and analytics."
+        "desc": "Point of Sale and inventory system modernizing traditional sari-sari store notebook accounting with automated sales tracking and analytics.",
+        "link": "https://github.com/irenguinita/SariSariSmart",
+        "label": "View on GitHub ↗"
+    },
+    {
+        "title": "PARA PO: MANGGA DYIP SIMULATOR",
+        "role": "Developer",
+        "tools": "Godot Engine",
+        "desc": "Designed and implemented the user interface,logic, and scene for a horror game jam hackathon.",
+        "link": "https://b1nggb0ngg.itch.io/mangga-dyip-simulator",
+        "label": "View on Itch ↗"
     }
 ]
 
+# Display initial 4 projects or all projects based on state
+displayed_projects = projects if st.session_state.show_all_projects else projects[:4]
+
 p_col1, p_col2 = st.columns(2)
-for i, proj in enumerate(projects):
+for i, proj in enumerate(displayed_projects):
     col = p_col1 if i % 2 == 0 else p_col2
     with col.container(border=True):
         st.subheader(proj["title"])
         st.caption(f"**Role:** {proj['role']} | **Stack:** {proj['tools']}")
         st.write(proj["desc"])
-        st.button("View Details", key=f"btn_{i}")
+        
+        # Check if project has an external link
+        if proj.get("link"):
+            st.link_button(proj.get("label", "View Link ↗"), proj["link"])
+        else:
+            # Fallback styling for research papers or hardware projects without links
+            st.caption("🔬 *Hardware & Research Project (DOST Imake.wemake Finalist)*")
+
+# Scalable "Show All Projects" Button
+if len(projects) > 4:
+    st.write("")
+    btn_col1, btn_col2, btn_col3 = st.columns([1, 1.2, 1])
+    with btn_col2:
+        if not st.session_state.show_all_projects:
+            if st.button(f"Show All Projects ({len(projects)})", use_container_width=True):
+                st.session_state.show_all_projects = True
+                st.rerun()
+        else:
+            if st.button("Show Less", use_container_width=True):
+                st.session_state.show_all_projects = False
+                st.rerun()
 
 st.divider()
 
